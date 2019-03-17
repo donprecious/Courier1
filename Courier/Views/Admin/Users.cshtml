@@ -1,0 +1,144 @@
+﻿@model PagedList.IPagedList<Courier.Models.DbModel.User>
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+@{
+    ViewBag.Title = "Manage Users";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="templatemo-flex-row flex-content-row">
+    <!-- overflow hidden for iPad mini landscape view-->
+
+   
+    <div class="col-1 templatemo-overflow-hidden">
+        <div class="templatemo-content-widget white-bg ">
+            <h1>@ViewBag.Title</h1>
+            <div class="templatemo-flex-row flex-content-row">
+                <div class="col-12 col-lg-12 col-md-12">
+
+                    @*<a class="text-right btn btn-success" href="@Url.Action("CreateOrder","Admin")">Create Order</a>*@
+                    <div class="table-div">
+                        <table class="table table-responsive table-condensed table-striped">
+                            <thead>
+                                <tr>
+                                    
+                                    <th>@Html.ActionLink("First name", "Users", new { sortOrder = ViewBag.OrderID, currentFilter = ViewBag.CurrentFilter })</th>
+                                    <th>LastName</th>
+                                    <th>Email</th>
+                                    
+                                   
+                                    <th>@Html.ActionLink("Date Registered", "Users", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @if (Model.Count() != 0)
+                                {
+                                    foreach (var i in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @i.FirstName
+                                                <br />
+                                            </td>
+                                           
+                                            <td>
+                                                @i.LastName
+                                            </td>
+
+                                            <td>
+                                                @i.Email
+                                            </td>
+                                            <td>
+                                                @i.DateStamp
+                                            </td>
+                                         
+                                         
+                                            <td>
+                                                <div class="">
+                                                    <a  class="btn btn-xs btn-info" href="@Url.Action("BlockUser","Admin", new { id=i.Id })">Block</a>
+                                                 </div>
+                                                <div class="">
+                                                    <a class="btn btn-xs btn-primary" href="@Url.Action("DeleteUser","Admin",new { id=i.Id})">Delete</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+
+                                                        }
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <tr>
+                                                            <td colspan="9">
+                                                                <h3>No User Yet</h3>
+                                                            </td>
+                                                        </tr>
+                                                    }
+
+
+                            </tbody>
+                        </table>
+
+                        <div>
+                            @Html.PagedListPager(Model, page => Url.Action("order",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                        </div>
+
+                        <div>
+                            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="panel panel-default templatemo-content-widget white-bg no-padding" style="overflow:auto">
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal-label">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModal-label">Notification</h4>
+            </div>
+            <div class="modal-body">
+                <p>User was deleted succefuly</p>
+            </div>
+            <div class="modal-footer">
+
+                <a class="btn btn-primary" href="@Url.Action("Quotas")" data-dismiss="modal" aria-label="Close">OK</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script>
+        $(function () {
+            var data;
+            @if(TempData["show"] != null)
+            {
+                @:data = @TempData["show"];
+
+            }
+            if (data === 1) {
+                $("#myModal").modal("show");
+            }
+        });
+
+    </script>
+    }

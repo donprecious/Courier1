@@ -1,0 +1,93 @@
+﻿@model  IEnumerable<Courier.Models.DbModel.User>
+
+@{
+//Layout = null;
+}
+<br />
+<br />
+<br />
+
+<div class="container">
+    <div class="row">
+
+        <div>
+            <h4>User</h4>
+            <hr />
+            <table class="table">
+                <thead>
+                    <tr>
+
+                        <th>Email</th>
+                        <th>Name</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+                <tbody>
+                    @foreach (var i in Model)
+                    {
+                        <tr>
+                            <th>
+                                @i.Email
+                            </th>
+                            <th>
+                                @i.FirstName   @i.LastName
+                            </th>
+                            <th>
+                                <a href="#" class="btn btn-danger">Delete User</a>
+                                <a href="@Url.Action("AddUserToAdminRole", "SuperAdmin", new { id= i.Id })" class="btn btn-success">Make Admin</a>
+                            </th>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+   
+@section Scripts{
+    <script>
+        $(function () {
+            var data;
+            @if(TempData["view"] != null)
+            {
+                @: data = @TempData["view"] ;
+            }
+            if (data === 1) {
+                //show error div
+                $("#myModal").modal("show");
+            }
+
+
+
+        });
+
+
+</script>
+    }
+    
+
+
+    
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal-label">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModal-label">Notification</h4>
+                </div>
+                <div class="modal-body">
+
+                    <h1>@ViewBag.Error</h1>
+                </div>
+                <div class="modal-footer">
+
+                    <a class="btn btn-primary" href="@Url.Action("Quotas")" data-dismiss="modal" aria-label="Close"> OK</a>
+                </div>
+            </div>
+        </div>
+    </div>
+

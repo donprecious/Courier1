@@ -1,0 +1,78 @@
+﻿@model Courier.Models.ViewModels.OrderV
+
+@{
+    ViewBag.Title = "Order";
+}
+@Html.Partial("_ClientHeader")
+<div class="container">
+    <div class="row">
+        <div class="package">
+          
+            <h3>Desribe your package</h3>
+            
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Packagename, new { @class = "control-label " })
+
+                    @Html.TextBoxFor(model => model.Packagename, new {  @class = "form-control" } )
+                    @Html.ValidationMessageFor(model => model.Packagename, "", new { @class = "text-danger" })
+
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Description, new { @class = "control-label " })
+
+                    @Html.TextAreaFor(model => model.height, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.height, "", new { @class = "text-danger" })
+
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.weight, new { @class = "control-label " })
+
+                    @Html.TextBoxFor(model => model.weight, new {  @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.weight, "", new { @class = "text-danger" })
+
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.height, new { @class = "control-label " })
+
+                    @Html.TextBoxFor(model => model.height, new  { @class = "form-control" } )
+                    @Html.ValidationMessageFor(model => model.height, "", new { @class = "text-danger" })
+
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.width,  new { @class = "control-label " })
+                    @Html.TextBoxFor(model => model.width, new { @class = "form-control" } )
+                    @Html.ValidationMessageFor(model => model.width, "", new { @class = "text-danger" })
+                </div>
+
+
+                <div class="form-group">
+                    <div class="">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </div>
+
+            }
+
+            <div>
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+
+            @section Scripts {
+                @Scripts.Render("~/bundles/jqueryval")
+            }
+
+
+        </div>
+
+    </div>
+   
+</div>

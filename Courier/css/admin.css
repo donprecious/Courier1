@@ -1,0 +1,80 @@
+﻿#srch-term{
+background-color:#eae9e9; 
+color:#000000;
+     
+}
+
+.form-control{
+     border:1px solid #dd5d78;
+     border-radius:0;
+     box-shadow:none;
+}
+.form-control:focus{
+    box-shadow:none;
+    background-color:#eae9e9;
+     border:2px solid #dd5d78;
+}
+ input[text].form-control, textarea.form-control{
+    border:1px solid #dd5d78;
+     border-radius:0;
+     box-shadow:none;
+}
+.btn-site{
+    border-radius:2px;
+    background-color:#ff6a00;
+    color:#ffe5d2;
+}
+.btn-large-text{
+
+}
+.my-form{
+    margin-top:30px;
+    margin-bottom:30px;
+    margin-left:auto;
+    margin-right:auto;
+    width:60%;
+    padding:20px; 
+    border-radius:5px;
+    background-color:#fbfbfb;
+    box-sizing:border-box;
+    box-shadow: 0px 16px 18px 0px #a9977e;
+}
+.top-div{
+       background-color: white;
+    padding:10px;
+    padding-left:20px;
+    margin:4px;
+    border-radius:20px;
+}
+.top-div .btn {
+     border-radius:30px;
+     background-color:#3bb0eb;
+}
+.package .top-line{
+    width:100%;
+    background-color:#ce5e0e;
+    height:4px;
+}
+.table-div{
+    overflow-x:scroll;
+    margin:5px;
+        box-shadow: 0px 5px 19px 0px black;
+        padding:10px;
+        background-color:#efefef;
+}
+.table-div thead>tr{
+    background-color:#efefef;
+}
+.map {
+    background-color: #e8e7e7;
+    box-shadow: 0px 3px 7px #ad9c9c;
+    margin: 10px;
+    border-radius: 10px;
+    height: 300px;
+    padding:10px;
+}
+@media screen and (max-width:550px){
+    .my-form{
+        width:90%;
+    }
+}

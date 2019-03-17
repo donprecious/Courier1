@@ -1,0 +1,88 @@
+﻿@model Courier.Models.ViewModels.SupportV
+
+@{
+    ViewBag.Title = "Contact";
+}
+
+
+<div>
+    <div class="container">
+        <br />
+        <br />
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <div class="my-form-normal">
+                    @using (Html.BeginForm("contact", "Home"))
+            {
+                        <h3>Send us a message</h3>
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary()
+
+                        <div class="form-group">
+
+                            @Html.LabelFor(m => m.email, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.email,  new { @class = "form-control", placeholder = "Email address" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Message, new { @class = "control-label" })
+                            @Html.TextAreaFor(m => m.Message, new { @class = "form-control", placeholder = "Enter Message here" })
+                        </div>
+
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-primary" value="Send" />
+                        </div>
+                    }
+                </div>
+                </div>
+            <div class="col-md-6">
+                <address>
+                    One Olomcu Way<br />
+                    New Castle City<br />
+                    <abbr title="Phone">P:</abbr>
+                    425.555.0100
+                </address>
+
+                <address>
+                    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
+                    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
+                </address>
+
+            </div>
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal-label">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModal-label">Notification</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Thank you for Contacting us, we would get back to you by mail</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+          
+</div>
+</div>
+</div>
+@section Scripts {
+    <script>
+                $(function () {
+                    var show;
+                    @if(TempData["show"] != null)
+                    {
+                        @: show = @TempData["show"];
+
+                    }
+                    if(show === 1){
+                        $("#myModal").modal('show')
+                    }
+                })
+</script>
+    
+    }

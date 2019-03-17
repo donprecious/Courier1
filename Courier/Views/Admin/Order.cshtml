@@ -1,0 +1,206 @@
+﻿@model PagedList.IPagedList<Courier.Models.DbModel.Track>
+@using PagedList.Mvc;
+@using Courier.Models.DbModel;
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+@{
+    ViewBag.Title = "Manage Order";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h1>Manage  Orders</h1>
+<div class="top-div">
+    <a class="text-right btn btn-success" href="@Url.Action("CreateOrder","Admin")">Create Order</a>
+
+</div>
+        <div class="col-12 col-lg-12 col-md-12">
+
+          <h2>Ensure all orders have source destination and current location, Latitude and Logitude
+            it ensures precise tracking of orders
+            </h2>
+            <div class="table-div">
+                <table class="table table-responsive table-condensed table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.ActionLink("ID", "Order", new { sortOrder = ViewBag.OrderID, currentFilter = ViewBag.CurrentFilter })
+
+                            </th>
+                            <th>
+                                @Html.ActionLink("Date", "Order", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
+                            </th>
+                            <th>Package name</th>
+                            <th>Describition</th>
+                            <th>Source</th>
+                            <th>Destination</th>
+                            <th>Current location</th>
+                            <th>Size</th>
+                            <th>status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @if (Model.Count() != 0)
+                        {
+                            foreach (var i in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @i.OrderID
+                                        <br />
+                                    </td>
+                                    <td>
+                                        <span class="label label-info">
+                                            @{string dateSpam = i.Order.DateSpam != null ? Convert.ToString(i.Order.DateSpam) : "NO date recorded";}
+                                            @dateSpam
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge">Tracking No : @i.TrackID </span>
+                                        @i.Order.Packagename.ToString()
+                                    </td>
+
+                                    <td>
+                                        @i.Order.Description
+
+                                       
+                                    </td>
+                                    <td>
+                                        @i.Source.address
+                                        <br />
+
+                                        Latitude : @i.Source.Latitude
+                                        Logitude : @i.Source.Logitude
+                                    </td>
+                                    <td>
+                                        @i.destination.Address
+                                        <br />
+
+                                        Latitude : @i.destination.Latitude
+                                        Logitude : @i.destination.Logitude
+                                    </td>
+                                    <td>
+                                        @{
+                                            var da = new CourierEntities();
+                                            var orderid = i.OrderID;
+                                            var curr = da.CurrentLocations.Where(a => a.OrderID == orderid).Select(a => a.Address).SingleOrDefault();
+                                            var rec = da.Receipts.Where(a => a.OrderID == orderid).Select(a => a.Amount).SingleOrDefault();
+                                            
+                                        }
+
+                                        @if (curr == null)
+                                        {
+                                            @: Not set
+                                        }
+                                        else
+                                        {
+                                            @: @curr
+                                            <br />
+                                   @:    Latitude:  @i.Source.Latitude
+                                @: Logitude : @i.Source.Logitude
+                                         }
+                                    </td>
+                                    <td>
+
+                                        @{
+                                            string weight, h, w;
+                                            weight = (i.Order.weight != null) ? "Weight: " + i.Order.weight : "";
+                                            h = (i.Order.height != null) ? "Height: " + i.Order.height : "";
+                                            w = (i.Order.width != null) ? "Width: " + i.Order.width : "";
+
+                                        }
+                                        @weight, @h, @w,
+                                    </td>
+                                    <td>
+                                        @if (rec == null)
+                                        {
+                                            @: Not set
+                                        }
+                                        else
+                                        {
+                                            @: @rec
+                                         }
+                                    </td>
+                                    <td>
+                                        <div class="">
+                                            <a href="@Url.Action("UpdateLocation","Admin", new { id=i.OrderID })">Update current Location</a>
+                                            <a class="btn btn-xs btn-info" href="@Url.Action("GenerateReceipt","Admin",new { id=i.OrderID })">Generate Receipt</a>
+                                            <a class="btn btn-xs btn-success" href="@Url.Action("UpdateLocation","Admin",new { id=i.OrderID })">Update Location</a>
+                                        </div>
+                                        <div class="">
+                                            <a></a>
+                                            <a class="btn btn-xs btn-primary" href="@Url.Action("DeleteOrder","Admin",new { id=i.OrderID })">Delete</a>
+                                            <a class="btn btn-xs btn-warning" href="@Url.Action("EditOrder","Admin",new { id=i.OrderID })">edit</a>
+                                        </div>
+
+                                    </td>
+                                </tr>
+
+
+                                                }
+
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="9">
+                                                        <h2>No Item Found</h2>
+                                                    </td>
+                                                </tr>
+                                            }
+                 </tbody>
+                </table>
+
+                <div>
+                    @Html.PagedListPager(Model, page => Url.Action("order",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                </div>
+
+                <div>
+                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+
+                </div>
+
+            </div>
+
+
+            <div class="panel panel-default templatemo-content-widget white-bg no-padding" style="overflow:auto">
+
+            </div>
+        </div>
+
+    
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal-label">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModal-label">Notification</h4>
+            </div>
+            <div class="modal-body">
+                <p>@TempData["Message"]</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var show;
+        $(function () {
+            @if (TempData["show"] != null)
+            {
+                @: show = @TempData["show"];
+
+            }
+            if(show === 1){
+                $("#myModal").modal("show");
+            }
+        });
+    </script>
+}

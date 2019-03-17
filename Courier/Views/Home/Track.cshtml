@@ -1,0 +1,258 @@
+﻿@model  Courier.Models.ViewModels.TrackV
+
+@{
+    ViewBag.Title = "Track";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Partial("_ClientHeader")
+
+<div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                @if (Model != null)
+                {
+                    <div>
+
+                        <div class="header">
+                            <h1>Shipment Track</h1>
+                        </div>
+
+                        <div class="content">
+                            <div class="content1">
+                                <h2>Order Tracking: @Model.TrackID</h2>
+                            </div>
+                            <div class="content2">
+                                <div class="content2-header1">
+                                    <p><span>@Model.packageName</span></p>
+                                </div>
+
+                                <div class="clear"></div>
+                            </div>
+                            <div class="content3">
+                                <div class="shipment">
+                                    <div class="confirm">
+                                        <div class="imgcircle">
+                                            <img src="~/shipmentTrackTemplate/images/confirm.png" alt="confirm order">
+                                        </div>
+                                        <span class="line"></span>
+                                        <p>@Model.Source</p>
+                                       Confirmed Order
+                                    </div>
+                                    <div class="process">
+                                        <div class="imgcircle">
+                                            <img src="~/shipmentTrackTemplate/images/process.png" alt="process order">
+                                        </div>
+                                        <span class="line"></span>
+                                        <p>@Model.CurrentLocation</p>
+                                        Current Location
+
+                                    </div>
+
+                                    <div class="delivery">
+                                        <div class="imgcircle">
+                                            <img src="~/shipmentTrackTemplate/images/delivery.png" alt="delivery">
+
+                                        </div>
+                                        <p>@Model.Destination</p>
+                                        Product to Be Delivered To
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4 my-form">
+                <h2>Track Your Package</h2>
+                @using (Html.BeginForm("Track", "Home"))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        @Html.LabelFor(a => a.TrackID, new { @class = "control-label" })
+                        @Html.TextBoxFor(a => a.TrackID, new { @class = "form-control", placeholder = "Tracking Number", id = "currLoca" })
+
+                    </div>
+
+                    <button type="submit" class="btn btn-site">Track Now</button>
+                    @*@Html.HiddenFor(a => a.DestinationLatitude, new { id="desLat"})
+                        @Html.HiddenFor(a => a.DestinationLogitude, new { id = "desLog" })
+
+                        @Html.HiddenFor(a => a.SourceLatitude, new { id = "souLat" })
+                        @Html.HiddenFor(a => a.SourceLogitude, new { id = "souLog" })
+
+                        @Html.HiddenFor(a => a.CurrentLatitude, new { id = "currLat" })
+                        @Html.HiddenFor(a => a.CurrentLogitude, new { id = "currLog" })*@
+
+                    @ViewBag.map
+                }
+                @*<div >
+                        @if (Model != null)
+                        {
+                            @Model.Source
+                            @Model.SourceLatitude
+                            @Model.SourceLogitude
+                            @Model.Destination
+                            @Model.DestinationLatitude
+                            @Model.DestinationLogitude
+                            @Model.CurrentLocation
+                            @Model.CurrentLocation
+                            @Model.CurrentLatitude
+                        }
+
+                    </div>*@
+            </div>
+            <div class="col-sm-8">
+             
+                <h3>Location</h3>
+                <div class="map" id="map">
+                    <h1> @ViewBag.msg </h1>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+@section Css{
+
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+    <link href="~/shipmentTrackTemplate/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    }
+
+@section Scripts {
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDMgIGcjFgCKYtJ8TmPCgmS6Yi11TnUKN4&libraries=places"></script>
+    <script>
+
+        var desLat = 1.23, desLog = 1.50;
+        var souLat = 2.34, souLog = -1.00;
+        var currLat = 0.0, currLog = 0.00;
+        $(function () {
+
+            @if (Model != null)
+              {
+
+
+               @:desLat = @Model.DestinationLatitude;
+                @: desLog = @Model.DestinationLogitude;
+
+                  @:souLat = @Model.SourceLatitude;
+                    @:souLog = @Model.SourceLogitude;
+
+                  @:currLat = @Model.CurrentLatitude;
+                @:currLat = @Model.CurrentLogitude;
+              }
+
+            setMap(desLat,desLog,souLat,souLog,currLat,currLog);
+
+        });
+    </script>
+    <script>
+                            $(function () {
+
+                                var tempdata, errorMessage;
+                            @if(TempData["show"] != null)
+                            {
+                                @:tempdata = TempData["show"]
+                            }
+                                if (tempdata === 1) {
+                                    $("#myModal").modal("show");
+                                }});
+
+
+    </script>
+
+    <script>
+        function setMap(desLat, desLog, souLat, souLog, currLat, currLog) {
+            var iconDes = '@Url.Content("~/img/Location_Destination.png")';
+            var iconSr = '@Url.Content("~/img/Location_Source.png")';
+            var iconCurr = '@Url.Content("~/img/Location_Current.png")';
+            //var desLat = $("#DesLat").attr("value"), desLog = $("#DesLog").attr("value");
+            //var souLat = $("#SouLat").attr("value"), souLog = $("#SouLog").attr("value");
+
+            var points = [
+            {
+                "type": "sr",
+                "Address": "Nigeria",
+                "Latitude": desLat,
+                "Logitude": desLog,
+            },
+            {
+                "type": "des",
+                "Address": "London, UK",
+                "Latitude": souLat,
+                "Logitude": souLog,
+            },
+            {
+                "type": "curr",
+                "Address": "Ghana",
+                "Latitude": currLat,
+                "Logitude": currLog,
+            }
+            ];
+            //set line positions
+            var line = [
+                { lat: souLat, lng: souLog },
+
+                { lat: currLat, lng: currLog },
+
+                 { lat: desLat, lng: desLog },
+            ];
+            //set line
+            var pathLine = new google.maps.Polyline({
+                path: line,
+                geodesic: true,
+                strokeColor: '#39adb4',
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            });
+
+            //      <img src="~/img/Location_Current.png" />
+            var image = {
+                url: '@Url.Content("~/img/Location_Current.png")',
+
+                origin: new google.maps.Point(0, 0),
+                // The anchor for this image is the base of the flagpole at (0, 40).
+                anchor: new google.maps.Point(0, 40)
+            };
+            var myLatLng = { lat: desLat, lng: desLog };
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 4,
+                center: myLatLng
+            });
+            //loop through array of latitude and add marker
+            points.forEach(element => {
+                var marker = new google.maps.Marker({
+                    position: { lat: element.Latitude, lng: element.Logitude },
+                    map: map,
+                    icon: (element.type === "sr" ? iconSr : element.type === "des" ? iconDes : iconCurr),
+                    animation: (element.type === "curr" ? google.maps.Animation.BOUNCE : google.maps.Animation.DROP),
+                    title: (element.type === "sr" ? "Source Location" : element.type === "des" ? "Destination" : "Current Location"),
+                });
+            });
+
+            //add a single marker;
+
+            //draw line
+            pathLine.setMap(map);
+
+        }
+                        $(function () {
+                            $("#des").change(function () {
+
+                            });
+
+                        });
+                        //function initMap() {
+
+                        //}
+
+    </script>
+    @Scripts.Render("~/bundles/jqueryval")
+}

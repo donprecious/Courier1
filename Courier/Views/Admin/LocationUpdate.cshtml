@@ -1,0 +1,280 @@
+﻿@model Courier.Models.ViewModels.LocationV
+
+@{
+    ViewBag.Title = "Update Location Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<div class="templatemo-flex-row flex-content-row">
+
+    <div class="col-2 templatemo-overflow-hidden">
+        <div class="templatemo-content-widget white-bg">
+
+            <div class="templatemo-flex-row flex-content-row">
+                <div class="col-lg-6 col-md-6">
+                    @using (Html.BeginForm("LocationUpdates"))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="my-form-normal">
+                            <h4>Update And Add Payment to @ViewBag.PackageName</h4>
+                            Order no: @ViewBag.TrackingNo
+                            <hr />
+                            @* @Html.HiddenFor)*@
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @*<div class="form-group">
+                                    @Html.LabelFor(model => model.TrackID, htmlAttributes: new { @class = "control-label" })
+                                        @Html.EditorFor(model => model.TrackID, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.TrackID, "", new { @class = "text-danger" })
+                                </div>*@
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Source, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.Source, new { htmlAttributes = new { @class = "form-control", id = "source" } })
+                                @Html.ValidationMessageFor(model => model.Source, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CurrentLocation, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.CurrentLocation, new { htmlAttributes = new { @class = "form-control", id = "curr" } })
+                                @Html.ValidationMessageFor(model => model.CurrentLocation, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Destination, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.Destination, new { htmlAttributes = new { @class = "form-control", id = "des" } })
+                                @Html.ValidationMessageFor(model => model.Destination, "", new { @class = "text-danger" })
+                            </div>
+
+                            @Html.HiddenFor(a => a.SourceLatitude, new { id = "SouLat" })
+                            @Html.HiddenFor(a => a.SourceLogitude, new { id = "SouLog" })
+
+                            @Html.HiddenFor(a => a.DestinationLatitude, new { id = "DesLat" })
+                            @Html.HiddenFor(a => a.DestinationLogitude, new { id = "DesLog" })
+
+                            @Html.HiddenFor(a => a.DestinationLatitude, new { id = "CurrLat" })
+                            @Html.HiddenFor(a => a.DestinationLogitude, new { id = "CurrLog" })
+                            <div class="form-group">
+                                <input type="submit" value="Update Location" class="btn btn-default" />
+                            </div>
+                        </div>
+                    }
+                    <div>
+                        @Html.ActionLink("Back to List", "Orders")
+                    </div>
+                </div>
+                
+                <div class="col-lg-6 col-md-6">
+                    <div class="locData">
+                        <span id="lSouAdd">@Model.Source :</span>
+                             lat : <span id="lSouLat">@Model.SourceLatitude ,</span>  Log : <span id="lSouLog">@Model.SourceLogitude</span>
+                            <br />
+                        <span id="lDesAdd"> @Model.Destination </span>
+                               : lat : <span id="lDesLat">@Model.DestinationLatitude ,</span> Log : <span id="lDesLog">@Model.DestinationLogitude </span>
+                            <br />
+                        <span id="lCurrAdd">@Model.CurrentLocation </span>
+                          : lat : <span id="lCurrLat"></span> @Model.CurrentLatitude , Log : <span id="lCurrLog">@Model.CurrentLogitude</span>
+</div>
+                   <div class="map" id="map">
+
+                   </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDMgIGcjFgCKYtJ8TmPCgmS6Yi11TnUKN4&libraries=places"></script>
+    <script>
+
+        var desLat = 1.23, desLog = 0.00;
+        var souLat = 2.34, souLog = 0.00;
+        var currLat = 2.34, currLog = 0.00;
+                            $(function () {
+                                var placeSearch, autocomplete, auto2, auto3;
+                                var mesg;
+                                autocomplete = new google.maps.places.Autocomplete(document.getElementById(('source')), { types: ['geocode'] });
+                                autocomplete.addListener('place_changed', getAddress);
+
+                                auto2 = new google.maps.places.Autocomplete(document.getElementById(('des')), { types: ['geocode'] });
+                                auto2.addListener('place_changed', getAddress2);
+
+                                auto3 = new google.maps.places.Autocomplete(document.getElementById(('curr')), { types: ['geocode'] });
+                                auto3.addListener('place_changed', getAddress3);
+
+                                function getAddress() {
+                                    var place = autocomplete.getPlace();
+                                    var address = place.formatted_address;
+                                    var latitude = place.geometry.location.lat();
+                                    var longitude = place.geometry.location.lng();
+                                    souLat = latitude;
+                                    souLog = longitude;
+
+                                    mesg = "Address1: " + address;
+                                    mesg += "\nLatitude: " + latitude;
+                                    mesg += "\nLongitude: " + longitude;
+                                    $("#lSouAdd").text(address);
+                                    $("#lSouLat").text(latitude);
+                                    $("#lSouLog").text(longitude);
+
+
+
+                                     $("#SouLat").attr("value", latitude);
+                                    $("#SouLog").attr("value", longitude);
+                                }
+
+                                function getAddress2(){
+                                    var place2 = auto2.getPlace();
+                                    var address2 = place2.formatted_address;
+                                    var latitude2 = place2.geometry.location.lat();
+                                    var longitude2 = place2.geometry.location.lng();
+
+                                    desLat = latitude2;
+                                    desLog = longitude2;
+                                    mesg += "address2: " + address2;
+                                    mesg += "\nLatitude2: " + latitude2;
+                                    mesg += "\nLongitude2: " + longitude2;
+                                    $("#lDesAdd").text(address2);
+                                    $("#lDesLat").text(latitude2);
+                                    $("#lDesLog").text(longitude2);
+
+                                    $("#DesLat").attr("value", latitude2);
+                                    $("#DesLog").attr("value", longitude2);
+
+                                    setMap(desLat, desLog, souLat, souLog);
+                                    console.log(mesg);
+                                    //alert(mesg);
+
+
+                                }
+
+                                function getAddress3() {
+                                    var place3 = auto3.getPlace();
+                                    var address3 = place3.formatted_address;
+                                    var latitude3 = place3.geometry.location.lat();
+                                    var longitude3 = place3.geometry.location.lng();
+
+                                    currLat = latitude3;
+                                    currLog = longitude3;
+                                    mesg += "address3: " + address3;
+                                    mesg += "\nLatitude3: " + latitude3;
+                                    mesg += "\nLongitude3: " + longitude3;
+
+                                    $("#lCurrAdd").text(address3);
+                                    $("#lCurrLat").text(latitude3);
+                                    $("#lCurrLog").text(longitude3);
+
+                                    $("#CurrLat").attr("value", latitude3);
+                                    $("#CurrLog").attr("value", longitude3);
+
+                                    // setMap(desLat, desLog, souLat, souLog);
+                                    console.log(mesg);
+                                    //alert(mesg);
+
+                                }
+
+                            });
+
+
+    </script>
+    <script>
+                            $(function () {
+
+                                var tempdata, errorMessage;
+                            @if(TempData["show"] != null)
+                            {
+                                @:tempdata = TempData["show"]
+                            }
+                                    if (tempdata === 1) {
+                                        $("#myModal").modal("show");
+                                    }});
+
+
+    </script>
+
+    <script>
+        function setMap(desLat, desLog, souLat, souLog) {
+            var iconDes = '@Url.Content("~/img/Location_Destination.png")';
+            var iconSr = '@Url.Content("~/img/Location_Source.png")';
+            var iconCurr = '@Url.Content("~/img/Location_Current.png")';
+            //var desLat = $("#DesLat").attr("value"), desLog = $("#DesLog").attr("value");
+            //var souLat = $("#SouLat").attr("value"), souLog = $("#SouLog").attr("value");
+
+            var points = [
+            {
+                "type": "sr",
+                "Address": "Nigeria",
+                "Latitude": desLat,
+                "Logitude": desLog,
+            },
+            {
+                "type": "des",
+                "Address": "London, UK",
+                "Latitude": souLat,
+                "Logitude": souLog,
+            },
+            {
+                "type": "curr",
+                "Address": "Ghana",
+                "Latitude": currLat,
+                "Logitude": currLog,
+            }
+            ];
+            //set line positions
+            var line = [
+                { lat: souLat, lng: souLog },
+                {lat: currLat, lng: currLog},
+                 { lat: desLat, lng: desLog },
+            ];
+            //set line
+            var pathLine = new google.maps.Polyline({
+                path: line,
+                geodesic: true,
+                strokeColor: '#39adb4',
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            });
+
+            //      <img src="~/img/Location_Current.png" />
+            var image = {
+                url: '@Url.Content("~/img/Location_Current.png")',
+
+                origin: new google.maps.Point(0, 0),
+                // The anchor for this image is the base of the flagpole at (0, 40).
+                anchor: new google.maps.Point(0, 40)
+            };
+            var myLatLng = { lat: desLat, lng: desLog };
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 2,
+                center: myLatLng
+            });
+            //loop through array of latitude and add marker
+            points.forEach(element => {
+                var marker = new google.maps.Marker({
+                    position: { lat: element.Latitude, lng: element.Logitude },
+                    map: map,
+                    icon: (element.type === "sr" ? iconSr : element.type === "des" ? iconDes : iconCurr),
+                    animation: (element.type === "curr" ? google.maps.Animation.BOUNCE : google.maps.Animation.DROP),
+                    title: (element.type === "sr" ? "Source Location" : element.type === "des" ? "Destination" : "Current Location"),
+                });
+            });
+
+            //add a single marker;
+
+            //draw line
+            pathLine.setMap(map);
+
+        }
+                        $(function () {
+                            $("#des").change(function () {
+
+                            });
+
+                        });
+                        //function initMap() {
+
+                        //}
+
+    </script>
+    @Scripts.Render("~/bundles/jqueryval")
+}

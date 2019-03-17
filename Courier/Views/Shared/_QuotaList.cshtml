@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Courier.Models.DbModel.Quota>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Source)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Destination)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PackageInfo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateSpam)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.email)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Source)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Destination)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PackageInfo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateSpam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.email)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.QuotaID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.QuotaID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.QuotaID })
+            </td>
+        </tr>
+    }
+
+</table>

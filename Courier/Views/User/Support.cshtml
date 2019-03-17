@@ -1,0 +1,74 @@
+﻿@model PagedList.IPagedList<Courier.Models.DbModel.support>
+
+@using PagedList.Mvc;
+@Html.Partial("_ClientHeader")
+<div class="container">
+    <div class="row">
+        <br />
+        <br />
+        <p>
+            @Html.ActionLink("Send a quota", "Create")
+        </p>
+        <div class="col-md-8 col-sm-7">
+
+            @foreach (var i in Model)
+            {
+                <div class="support">
+                    <i class="fa fa-clock-o"></i><small>@i.dateSpam</small>
+                    <small class="badge">Ticket no #@i.TicketID </small>
+                    <blockquote>
+                        @i.message
+                        <p><i class="fa fa-map-marker"></i> Itali</p>
+                        @foreach (var a in i.Responses)
+                        {
+                            <div class="quota-reply">
+                                <small class="badge">Replied by jamsine jude </small>
+                                <blockquote> @a.Message</blockquote>
+                            </div>
+                        }
+
+                     
+                    </blockquote>
+
+                </div>
+            }
+            <div>
+                @Html.PagedListPager(Model, page => Url.Action("Support",
+    new { page}))
+            </div>
+
+            <div>
+                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-5">
+     
+
+            <div class="my-form-normal">
+                @using (Html.BeginForm("Support", "User"))
+            {
+                    <h3>Send us a message</h3>
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary()
+
+                    <div class="form-group">
+
+                        @Html.Label("Email",  htmlAttributes: new { @class = "control-label" })
+                        @Html.TextBox("Email", null ,new { @class = "form-control", placeholder = "Email address" })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Message", new { @class = "control-label" })
+                        @Html.TextArea("Message", new { @class = "form-control", placeholder = "Enter Message here" })
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-primary" value="Send" />
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,255 @@
+﻿@model PagedList.IPagedList<Courier.Models.DbModel.Track>
+@using PagedList.Mvc
+@using Courier.Models.DbModel
+
+@{
+    ViewBag.Title = "Client";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+  @Html.Partial("_ClientHeader")
+
+<div>
+    <div class="container">
+        
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="card">
+                    <a href="@Url.Action("Orders","User")">
+                        <div class="icon">
+                            <i class="fa fa-4x fa-tasks"></i> <span class="label-primary label">@ViewBag.Orders</span>
+
+                        </div>
+                        <p>Order </p>
+                    </a>
+                    
+      
+                   
+                </div>
+            </div>
+           
+            <div class="col-sm-3">
+                <div class="card">
+                    <a href="@Url.Action("Quota","User")">
+                        <div class="icon">
+                            <i class="fa fa-4x fa-question-circle"></i> <span class="label-primary label">@ViewBag.Quotas</span>
+
+                        </div>
+                        <p>Quota</p>
+                    </a>
+                        
+
+</div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="card">
+                    <a href="@Url.Action("Support","User")">
+                        <div class="icon">
+                            <i class="fa fa-4x fa-support"></i> <span class="label-primary label">@ViewBag.Supports</span>
+
+                        </div>
+                        <p>support message</p>
+
+                    </a>
+                  
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="card">
+                    <a href="@Url.Action("Reciepts","User")">
+                        
+                        <div class="icon">
+                            <i class="fa fa-4x fa-bell"></i> <span class="label-primary label">@ViewBag.Receipts</span>
+
+                        </div>
+                        <p>Invoice</p>
+                    </a>
+                        
+
+</div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="content-row">
+                <div class="col-sm-7 col-md-9">
+                    <div class="table-div">
+                        <table class="table table-responsive table-condensed table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.ActionLink("ID", "Orders")
+
+                                    </th>
+                                    <th>
+                                        @Html.ActionLink("Date", "Orders")
+                                    </th>
+                                    <th>Package name</th>
+                                    <th>Describition</th>
+                                    <th>Source</th>
+                                    <th>Destination</th>
+                                    <th>Current location</th>
+                                    <th>Size</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @if (Model.Count() != 0)
+                                {
+                                    foreach (var i in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @i.OrderID
+                                                <br />
+                                            </td>
+                                            <td>
+                                                <span class="label label-info">
+                                                    @{string dateSpam = i.Order.DateSpam != null ? Convert.ToString(i.Order.DateSpam) : "NO date recorded";}
+                                                    @dateSpam
+                                                </span>
+                                            </td>
+                                            <td>
+                                                @i.Order.Packagename
+
+                                                <span class="badge">Tracking No : @i.TrackID </span>
+                                            </td>
+
+                                            <td>
+                                                @i.Order.Description
+                                            </td>
+                                            <td>
+                                                @i.Source.address
+                                            </td>
+                                            <td>
+                                                @i.destination.Address
+                                            </td>
+                                            <td>
+                                                @{
+                                                    var da = new CourierEntities();
+                                                    var orderid = i.OrderID;
+                                                    var curr = da.CurrentLocations.Where(a => a.OrderID == orderid).Select(a => a.Address).SingleOrDefault();
+                                                    var rec = da.Receipts.Where(a => a.OrderID == orderid).Select(a => a.Amount).SingleOrDefault();
+                                                }
+
+                                                @if (curr == null)
+                                                {
+                                                    @: Not set
+                                        }
+                                                else
+                                                {
+                                                    @: @curr
+                                         }
+                                            </td>
+                                            <td>
+
+                                                @{
+                                                    string weight, h, w;
+                                                    weight = (i.Order.weight != null) ? "Weight: " + i.Order.weight : "";
+                                                    h = (i.Order.height != null) ? "Height: " + i.Order.height : "";
+                                                    w = (i.Order.width != null) ? "Width: " + i.Order.width : "";
+
+                                                }
+                                                @weight, @h, @w,
+                                            </td>
+                                            <td>
+                                                <div class="">
+                                       <a class="btn btn-xs btn-info" href="@Url.Action("Reciept","User",new { id=i.OrderID})">Print Receipt</a>
+                                                </div>
+
+                                            </td>
+                                        </tr>
+
+
+                                                        }
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <tr>
+                                                            <td colspan="9">
+                                                                <h2>No Item Found</h2>
+                                                            </td>
+                                                        </tr>
+                                                    }
+
+
+                            </tbody>
+
+                            <tfoot>
+                                <tr>
+                                    <td colspan="9">
+                                        <div>
+                                            @Html.PagedListPager(Model, page => Url.Action("Orders",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                                        </div>
+
+                                        <div>
+                                            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-sm-5 col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Quick Links</div>
+                        <div class="panel-body">
+
+                            <ul class="hor-link">
+                               
+                                <li>
+                                    <a href="@Url.Action("Order","User")">Create Order</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Reciepts","User")">View Invoices</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Track","Home")">Track Order</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Support","User")">Send Support Message</a>
+                                </li>
+                            </ul>
+                           
+                          
+                             
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+        <div class="row">
+            <div class="content-row">
+                <div class="col-sm-6 col-md-7">
+                    Notification
+                    
+                        <div class="notify alert alert alert-dismissible " role="alert">
+
+                            <button type="button" class="remove-alert pull-right" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                            <p>welcome to the fastest world transportation</p>
+                            <p>Send your package aboard</p>
+                        </div>
+                    
+                    
+                  
+                </div>
+                <div class="col-sm-6 col-md-5">
+                    <div class="current-order">
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,167 @@
+﻿
+@model IEnumerable<Courier.Models.DbModel.Track>
+
+@using Courier.Models.DbModel;
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="templatemo-content-container">
+    <div class="templatemo-flex-row flex-content-row">
+        <div class="templatemo-content-widget white-bg col-2">
+            <a href="@Url.Action("order","admin")">
+
+                <div>
+                    <i class="fa fa-bell fa-3x"></i> <span class="badge bg-primary"> @ViewBag.Orders</span>
+                </div>
+
+                <h2 class="templatemo-inline-block">New Orders</h2><hr>
+            </a>
+        </div>
+        <div class="templatemo-content-widget white-bg col-2">
+            <a href="@Url.Action("quotas","admin")">
+                <div>
+                    <i class="fa fa-question-circle fa-3x"></i> <span class="badge bg-primary"> @ViewBag.Quotas</span>
+                </div>
+
+                <h2 class="templatemo-inline-block">Quota</h2><hr>
+            </a>
+          
+          
+        </div>
+     
+            <div class="templatemo-content-widget white-bg col-2">
+                <a href="@Url.Action("users","admin")">
+                    <div>
+                        <i class="fa fa-ticket fa-3x"></i> <span class="badge bg-primary"> @ViewBag.Users</span>
+                    </div>
+                    <h2 class="templatemo-inline-block">Users</h2>
+                </a>
+
+</div>
+        
+           
+            <div class="templatemo-content-widget white-bg col-2">
+                <a href="@Url.Action("Supports","admin")">
+                    <div>
+                        <i class="fa fa-support fa-3x"></i> <span class="badge bg-primary"> @ViewBag.Supports</span>
+                    </div>
+                    <h2 class="templatemo-inline-block">Messages</h2>
+                </a>
+               
+            </div>
+</div>
+    <div class="templatemo-flex-row flex-content-row">
+        @*<div class="col-1">
+            <div class="templatemo-content-widget yellow-bg">
+                <i class="fa fa-times"></i>
+                <div class="media">
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object img-circle" src="~/images/sunset.jpg" alt="Sunset">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <small class="label label-info">recent message</small>
+                        <h2 class="media-heading text-uppercase">Consectur Fusce Enim</h2>
+                        <p>Phasellus dapibus nulla quis risus auctor, non placerat augue consectetur.</p>
+                        <span class="badge">  <i class="fa fa-clock-o"></i> @DateTime.UtcNow</span>
+                    </div>
+                </div>
+            </div>
+            <div class="templatemo-content-widget white-bg">
+                <i class="fa fa-times"></i>
+                <div class="media">
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object img-circle" src="~/images/sunset.jpg" alt="Sunset">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h2 class="media-heading text-uppercase">Consectur Fusce Enim</h2>
+                        <p>Phasellus dapibus nulla quis risus auctor, non placerat augue consectetur.</p>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+        <div class="col-2">
+            <div class="panel panel-default templatemo-content-widget white-bg no-padding templatemo-overflow-hidden">
+                <i class="fa fa-times"></i>
+                <div class="panel-heading templatemo-position-relative"><h2 class="text-uppercase">Recent Orders</h2></div>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <td>Order no</td>
+                                <td>Package name</td>
+                                <td>Current location</td>
+                                <td>Destination</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var i in Model)
+                            {
+                                <tr>
+                                    <td>@i.TrackID</td>
+                                    <td>@i.Order.Packagename</td>
+                                    <td>
+
+                                        @{
+                                            var da = new CourierEntities();
+                                            var orderid = i.OrderID;
+                                            var curr = da.CurrentLocations.Where(a => a.OrderID == orderid).Select(a => a.Address).SingleOrDefault();
+                                        //    var rec = da.Receipts.Where(a => a.OrderID == orderid).Select(a => a.Amount).SingleOrDefault();
+                                        }
+
+                                        @if (curr == null)
+                                        {
+                                            @: Not set
+                                        }
+                                        else
+                                        {
+                                            @: @curr
+                                         }
+                                    </td>
+                                    <td>@i.destination.Address</td>
+                                    <td>
+                                        <a href="@Url.Action("UpdateLocation","admin", new {id= i.OrderID })" class="btn btn-sm btn-primary">Update location</a>
+                                    </td>
+
+                                </tr>
+                            }
+                        
+                        
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4"> <a href="@Url.Action("Order","admin")">View All</a></td>
+                            </tr>
+                           
+                        </tfoot>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div> <!-- Second row ends -->
+    @*<div class="templatemo-flex-row flex-content-row templatemo-overflow-hidden">
+        <!-- overflow hidden for iPad mini landscape view-->
+        <div class="col-1 templatemo-overflow-hidden">
+            <div class="templatemo-content-widget white-bg templatemo-overflow-hidden">
+                <i class="fa fa-times"></i>
+                <div class="templatemo-flex-row flex-content-row">
+                    <div class="col-1 col-lg-6 col-md-12">
+                        <h2 class="text-center">Modular<span class="badge">new</span></h2>
+                        <div id="pie_chart_div" class="templatemo-chart"></div> <!-- Pie chart div -->
+                    </div>
+                    <div class="col-1 col-lg-6 col-md-12">
+                        <h2 class="text-center">Interactive<span class="badge">new</span></h2>
+                        <div id="bar_chart_div" class="templatemo-chart"></div> <!-- Bar chart div -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+    
+</div>

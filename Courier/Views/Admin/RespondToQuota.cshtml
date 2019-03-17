@@ -1,0 +1,259 @@
+﻿
+@model Courier.Models.ViewModels.QuotaReplyV
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "Location Generator";
+}
+@using Courier.Models.DbModel;
+<div class="templatemo-flex-row flex-content-row">
+    <div></div>
+    <!-- overflow hidden for iPad mini landscape view-->
+    <div class="col-1 templatemo-overflow-hidden">
+        <div class="templatemo-content-widget white-bg my-form">
+
+            <div class="templatemo-flex-row flex-content-row">
+                <div class="col-12 col-lg-12 col-md-12">
+
+                    <h3>Send Quota Request to @if (Model != null){ @:  @Model.QuotaID
+                    } </h3>
+
+                    @using (Html.BeginForm("RespondToQuota", "Admin"))
+                    {
+
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        @Html.HiddenFor(model => model.QuotaID)
+                        <div class="form-group">
+                            @Html.Label("Email", new { @class = "control-label " })
+
+                      
+                            <input type="text" id="Email" class="form-control" value="@ViewBag.Email" disabled="disabled" />
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.QuotaMessage, new { @class = "control-label" })
+
+                            @Html.TextAreaFor(model => model.QuotaMessage, new { @class = "form-control", id = "des" })
+                            @Html.ValidationMessageFor(model => model.QuotaMessage, "", new { @class = "text-danger" })
+
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="">
+                                <input type="submit" value="Create" class="btn btn-default" />
+                            </div>
+                        </div>
+                      
+                    }
+                    <div>
+                        @*<div class="well">
+                         
+                            
+                            <blockquote class="">
+                                <small class="badge">--Reply</small>
+                                
+                            </blockquote>
+                        </div>*@
+                    </div>
+
+                    @section Scripts {
+             
+                        @*<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDMgIGcjFgCKYtJ8TmPCgmS6Yi11TnUKN4&libraries=places"></script>
+                        <script>
+
+                            $(function () {
+                                var placeSearch, autocomplete, auto2;
+                                var mesg;
+                                autocomplete = new google.maps.places.Autocomplete(document.getElementById(('source')), { types: ['geocode'] });
+                                autocomplete.addListener('place_changed', getAddress);
+
+                                auto2 = new google.maps.places.Autocomplete(document.getElementById(('des')), { types: ['geocode'] });
+                                auto2.addListener('place_changed', getAddress2);
+                                function getAddress() {
+                                    var place = autocomplete.getPlace();
+
+
+                                    var address = place.formatted_address;
+                                    var latitude = place.geometry.location.lat();
+                                    var longitude = place.geometry.location.lng();
+
+
+
+                                    mesg = "Address1: " + address;
+                                    mesg += "\nLatitude: " + latitude;
+                                    mesg += "\nLongitude: " + longitude;
+
+                                    $("#SouLat").attr("value", latitude);
+                                    $("#SouLog").attr("value", longitude);
+                                    console.log("Hidden Field has this valus " + $("#mode").val())
+                                }
+
+                                function getAddress2(){
+                                    var place2 = auto2.getPlace();
+                                    var address2 = place2.formatted_address;
+                                    var latitude2 = place2.geometry.location.lat();
+                                    var longitude2 = place2.geometry.location.lng();
+
+                                    mesg += "address2: " + address2;
+                                    mesg += "\nLatitude2: " + latitude2;
+                                    mesg += "\nLongitude2: " + longitude2;
+                                    $("#DesLat").attr("value", latitude2);
+                                    $("#DesLog").attr("value", longitude2);
+                                    console.log(mesg);
+                                    alert(mesg);
+
+
+                                }
+
+                            });
+
+
+                        </script>
+                        <script>
+                            $(function () {
+
+                                var tempdata, errorMessage;
+                            @if(TempData["show"] != null)
+                            {
+                                @:tempdata = TempData["show"]
+                            }
+                                if (tempdata === 1) {
+                                    $("#myModal").modal("show");
+                                }});
+
+
+                        </script>
+
+                        <script>
+                        $(function () {
+
+                            var iconDes = '@Url.Content("~/img/Location_Destination.png")';
+                            var iconSr = '@Url.Content("~/img/Location_Source.png")';
+                            var iconCurr = '@Url.Content("~/img/Location_Current.png")';
+
+                            var points = [
+                            {
+                                "type":"sr",
+                                "Address": "Nigeria",
+                                "Latitude": 9.081999000000001,
+                                "Logitude": 8.675277000000051,
+                            },
+                            {
+                                "type": "des",
+                                "Address": "London, UK",
+                                "Latitude": 51.5073509,
+                                "Logitude": -0.12775829999998223,
+                            },
+                            {
+                                "type": "curr",
+                                "Address": "Ghana",
+                                "Latitude": 7.946527,
+                                "Logitude": -1.0231939999999895,
+                            }
+                            ];
+                            //set line positions
+                            var line = [
+                                { lat: 9.081999000000001, lng: 8.675277000000051 },
+
+                                { lat: 7.946527, lng: -1.0231939999999895 },
+                                 { lat: 51.5073509, lng: -0.12775829999998223 },
+                            ];
+                            //set line
+                            var pathLine = new google.maps.Polyline({
+                                path: line,
+                                geodesic: true,
+                                strokeColor: '#39adb4',
+                                strokeOpacity: 1.0,
+                                strokeWeight: 2
+                            });
+
+                      //      <img src="~/img/Location_Current.png" />
+                            var image = {
+                                 url: '@Url.Content("~/img/Location_Current.png")',
+
+                           origin: new google.maps.Point(0, 0),
+                            // The anchor for this image is the base of the flagpole at (0, 40).
+                           anchor: new google.maps.Point(0, 40)
+                        };
+                            var myLatLng = { lat: 51.5073509, lng: -0.12775829999998223 };
+                            var map = new google.maps.Map(document.getElementById('map'), {
+                                zoom: 2,
+                                center: myLatLng
+                            });
+                            //loop through array of latitude and add marker
+                                points.forEach(element => {
+                                    var marker = new google.maps.Marker({
+                                        position: {lat: element.Latitude, lng: element.Logitude},
+                                        map: map,
+                                        icon: (element.type === "sr" ? iconSr : element.type === "des" ? iconDes : iconCurr),
+                                        animation: (element.type === "curr" ? google.maps.Animation.BOUNCE : google.maps.Animation.DROP),
+                                        title: (element.type === "sr" ? "Source Location" : element.type === "des" ? "Destination" : "Current Location"),
+                                    });
+                                });
+
+                            //add a single marker;
+
+                            //draw line
+                                pathLine.setMap(map);
+
+                        });
+                        //function initMap() {
+
+                        //}
+
+                        </script>
+                            *@
+
+                    <script>
+        $(function () {
+                var data;
+                @if (TempData["show"] != null)
+                {
+                    @: data = @TempData["show"];
+                }
+                if (data === 1) {
+                    $("#myModal").modal('show')
+                }
+        });
+                    </script>
+                        @Scripts.Render("~/bundles/jqueryval")
+                    }
+
+
+                </div>
+
+            </div>
+
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal-label">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModal-label">Notification</h4>
+            </div>
+            <div class="modal-body">
+                <p>delete Successful</p>
+            </div>
+            <div class="modal-footer">
+
+                <a  class="btn btn-large-text btn-primary" href="@Url.Action("Quotas")" data-dismiss="modal" aria-label="Close"> OK</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+   
+
+    

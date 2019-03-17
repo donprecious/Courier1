@@ -1,0 +1,99 @@
+﻿@model PagedList.IPagedList<Courier.Models.DbModel.Quota>
+@using PagedList.Mvc
+@Html.Partial("_ClientHeader")
+<div class="container" >
+    <div class="row">
+        <br />
+        <br />
+        <p>
+            @Html.ActionLink("Send a quota", "Create", null, new { @class="btn btn-primary" })
+        </p>
+        <div class="col-md-12">
+            @if (Model.Count == 0)
+            {
+            <div class="quota">
+                <i class="fa fa-clock-o"></i>@DateTime.UtcNow
+                <small class="badge">Quota</small>
+                <blockquote>
+
+
+                    <div class="quota-reply">
+                        You Havent Sent any quota yet!
+                    </div>
+
+                </blockquote>
+
+            </div>
+            }
+            @foreach (var i in Model)
+            {
+                <div class="quota">
+                        <i class="fa fa-clock-o"></i><small>@i.DateSpam</small>
+                        <small class="badge">Quota</small>
+                        <blockquote>
+                            @i.PackageInfo
+                            <p>@i.Source To @i.Destination</p>
+                            <p><i class="fa fa-map-marker"></i> @i.Destination</p>
+
+                            @if (i.Responses.Count == 0)
+                            {
+                                <div class="quota-reply">
+                                  
+                                    <blockquote> No Reply Yet</blockquote>
+                                </div>
+                            }
+                            @foreach (var a in i.Responses)
+                            {
+                                <div class="quota-reply">
+                                    <small class="badge">Replied by jamsine jude </small>
+                                    <blockquote> @a.Message</blockquote>
+                                </div>
+                            }
+
+                        </blockquote>
+
+                    </div>
+                
+
+            }
+           
+
+       
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal-label">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModal-label">Notification</h4>
+            </div>
+            <div class="modal-body">
+                <p>Your Message has just been Sent</p>
+            </div>
+            <div class="modal-footer">
+
+                <a class="btn btn-primary" href="@Url.Action("Quotas")" data-dismiss="modal" aria-label="Close"></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*@section Scripts{
+    
+    <script>
+        $(function () {
+            var data;
+            @if(TempData["show"] != null)
+            {
+                @:data = @TempData["show"];
+
+            }
+            if (data === 1) {
+                $("#myModal").modal("show");
+            }
+        });
+
+    </script>
+    }*@

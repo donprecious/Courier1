@@ -1,0 +1,81 @@
+﻿@model Courier.Models.ViewModels.OrderV
+@{
+    ViewBag.Title = "Create an Order";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="templatemo-flex-row flex-content-row">
+    <!-- overflow hidden for iPad mini landscape view-->
+    <div class="col-1 templatemo-overflow-hidden">
+        <div >
+
+            <div class="templatemo-flex-row flex-content-row">
+                <div class="col-12 col-lg-12 col-md-12">
+
+                    <h2>Create a new Order</h2>
+                    <a class="text-right btn btn-success" href="@Url.Action("Order","Admin")">View Order</a>
+                 
+                    <div class="my-form" >
+                       @using (Html.BeginForm("CreateOrder","Admin"))
+                       {
+                        <div class="form-group">
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Packagename, new { @class = "control-label " })
+
+                                @Html.TextBoxFor(model => model.Packagename, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Packagename, "", new { @class = "text-danger" })
+
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Description, new { @class = "control-label " })
+
+                                @Html.TextAreaFor(model => model.height, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.height, "", new { @class = "text-danger" })
+
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.weight, new { @class = "control-label " })
+
+                                @Html.TextBoxFor(model => model.weight, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.weight, "", new { @class = "text-danger" })
+
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.height, new { @class = "control-label " })
+
+                                @Html.TextBoxFor(model => model.height, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.height, "", new { @class = "text-danger" })
+
+                            </div>
+
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.width, new { @class = "control-label " })
+
+                                @Html.TextBoxFor(model => model.width, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.width, "", new { @class = "text-danger" })
+
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="">
+                                    <input type="submit" value="Create" class="btn orange-bg " />
+                                </div>
+                            </div>
+                      
+                        </div>
+                       }
+                       
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,147 @@
+﻿@model PagedList.IPagedList<Courier.Models.DbModel.Track>
+@using PagedList.Mvc;
+@using Courier.Models.DbModel
+@{
+
+
+    ViewBag.Title = "My Invoices";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.Partial("_ClientHeader")
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <br />
+            <br />
+            <h2>@ViewBag.Title</h2>
+            <p>
+                @Html.ActionLink("Create a new order", "Order", null, new { @class = "btn btn-primary" })
+            </p>
+            <div class="table-div">
+                <table class="table table-responsive table-condensed table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.ActionLink("ID", "Orders", new { sortOrder = ViewBag.OrderID, currentFilter = ViewBag.CurrentFilter })
+
+                            </th>
+                            <th>
+                                @Html.ActionLink("Date Created", "Orders", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
+                            </th>
+                            <th>Amount</th>
+                            <th>Package name</th>
+                         
+                            <th>Source</th>
+                            <th>Destination</th>
+                            <th>Current location</th>
+                           
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @if (Model.Count() != 0)
+                        {
+                            foreach (var i in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @i.OrderID
+                                        <br />
+                                    </td>
+                                    <td>
+                                        <span class="label label-info">
+                                            @{string dateSpam = i.Order.DateSpam != null ? Convert.ToString(i.Order.DateSpam) : "NO date recorded";}
+                                            @dateSpam
+                                        </span>
+                                    </td>
+                                    <td>
+                                        @{
+                                            var da = new CourierEntities();
+                                            var orderid = i.OrderID;
+                                            var curr = da.CurrentLocations.Where(a => a.OrderID == orderid).Select(a => a.Address).SingleOrDefault();
+                                            var rec = da.Receipts.Where(a => a.OrderID == orderid).Select(a => a.Amount).SingleOrDefault();
+                                        }
+                                        <strong>
+                                            @if (rec == null)
+                                            {
+                                                @: Amount Not set
+                                        }
+                                            else
+                                            {
+                                                @: rec
+                                        }
+                                        </strong>
+                                    
+                                    
+
+
+                                    </td>
+                                    <td>
+                                        @i.Order.Packagename
+                                    </td>
+                                    <td>
+                                        @i.Source.address
+                                    </td>
+                                    <td>
+                                        @i.destination.Address
+                                    </td>
+                                    <td>
+                                       
+                                        @if (i.CurrentLocation == null)
+                                        {
+                                            @: Not set
+                                        }
+                                        else
+                                        {
+                                            @: @i.CurrentLocation.Address
+                                         }
+                                    </td>
+                                   
+                                    <td>
+                                        <div class="">
+
+                                            <a class="btn btn-xs btn-info" href="@Url.Action("Reciept","User",new { id=i.OrderID})">Print Receipt</a>
+
+                                        </div>
+
+                                    </td>
+                                </tr>
+
+
+                                                }
+
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="9">
+                                                        <h2>No Item Found</h2>
+                                                    </td>
+                                                </tr>
+                                            }
+
+
+                    </tbody>
+
+                    <tfoot>
+                        <tr>
+                            <td colspan="9">
+                                <div>
+                                    @Html.PagedListPager(Model, page => Url.Action("Orders",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                                </div>
+
+                                <div>
+                                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+
+                                </div>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
