@@ -41,5 +41,6 @@ namespace Courier.Models.DbModel
         public virtual DbSet<UserClaim> UserClaims { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Receipt> Receipts { get; set; }
+        public virtual DbSet<UserCredential> UserCredentials { get; set; }
     }
 }

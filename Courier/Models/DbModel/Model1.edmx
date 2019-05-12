@@ -87,7 +87,7 @@
           </Key>
           <Property Name="ReceiptID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="OrderID" Type="int" />
-          <Property Name="Amount" Type="money" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="2" />
           <Property Name="DateCreated" Type="datetime" />
         </EntityType>
         <EntityType Name="Response">
@@ -156,6 +156,15 @@
           <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="ClaimType" Type="nvarchar(max)" />
           <Property Name="ClaimValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="UserCredentials">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="UserRoles">
           <Key>
@@ -415,6 +424,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserCredentials_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="UserCredentials" Type="Self.UserCredentials" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserCredentials">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="CourierModelStoreContainer">
           <EntitySet Name="Countries" EntityType="Self.Countries" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CurrentLocation" EntityType="Self.CurrentLocation" Schema="dbo" store:Type="Tables" />
@@ -431,6 +452,7 @@
           <EntitySet Name="support" EntityType="Self.support" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Track" EntityType="Self.Track" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserClaims" EntityType="Self.UserClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserCredentials" EntityType="Self.UserCredentials" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserRoles" EntityType="Self.UserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_CurrentLocation_Orders" Association="Self.FK_CurrentLocation_Orders">
@@ -500,6 +522,10 @@
           <AssociationSet Name="FK_Track_Source" Association="Self.FK_Track_Source">
             <End Role="Source" EntitySet="Source" />
             <End Role="Track" EntitySet="Track" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserCredentials_Users" Association="Self.FK_UserCredentials_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserCredentials" EntitySet="UserCredentials" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -699,6 +725,7 @@
           <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_Users" FromRole="Users" ToRole="Orders" />
           <NavigationProperty Name="UserClaims" Relationship="Self.FK_dbo_UserClaims_dbo_Users_UserId" FromRole="Users" ToRole="UserClaims" />
           <NavigationProperty Name="Roles" Relationship="Self.UserRoles" FromRole="Users" ToRole="Roles" />
+          <NavigationProperty Name="UserCredentials" Relationship="CourierModel.FK_UserCredentials_Users" FromRole="User" ToRole="UserCredential" />
         </EntityType>
         <Association Name="FK_CurrentLocation_Orders">
           <End Role="Orders" Type="Self.Order" Multiplicity="0..1">
@@ -973,6 +1000,11 @@
             <End Role="Order" EntitySet="Orders" />
             <End Role="Receipt" EntitySet="Receipts" />
           </AssociationSet>
+          <EntitySet Name="UserCredentials" EntityType="CourierModel.UserCredential" />
+          <AssociationSet Name="FK_UserCredentials_Users" Association="CourierModel.FK_UserCredentials_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserCredential" EntitySet="UserCredentials" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Receipt">
           <Key>
@@ -980,7 +1012,7 @@
           </Key>
           <Property Name="ReceiptID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="OrderID" Type="Int32" />
-          <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="DateCreated" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Order" Relationship="CourierModel.FK_Receipt_Orders" FromRole="Receipt" ToRole="Order" />
         </EntityType>
@@ -995,6 +1027,28 @@
             </Principal>
             <Dependent Role="Receipt">
               <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="UserCredential">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="User" Relationship="CourierModel.FK_UserCredentials_Users" FromRole="UserCredential" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_UserCredentials_Users">
+          <End Type="CourierModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="CourierModel.UserCredential" Role="UserCredential" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserCredential">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1194,6 +1248,16 @@
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
                 <ScalarProperty Name="ReceiptID" ColumnName="ReceiptID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserCredentials">
+            <EntityTypeMapping TypeName="CourierModel.UserCredential">
+              <MappingFragment StoreEntitySet="UserCredentials">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

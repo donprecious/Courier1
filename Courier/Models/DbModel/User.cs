@@ -21,6 +21,7 @@ namespace Courier.Models.DbModel
             this.Orders = new HashSet<Order>();
             this.UserClaims = new HashSet<UserClaim>();
             this.Roles = new HashSet<Role>();
+            this.UserCredentials = new HashSet<UserCredential>();
         }
     
         public string Id { get; set; }
@@ -47,5 +48,7 @@ namespace Courier.Models.DbModel
         public virtual ICollection<UserClaim> UserClaims { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Role> Roles { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserCredential> UserCredentials { get; set; }
     }
 }

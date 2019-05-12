@@ -77,11 +77,11 @@ namespace Courier.Models
                             da.SaveChanges();
                             return true;
                         }
-
+                        
                     }
 
                 }
-                return false;
+                return true;
             }
             catch (Exception ex)
             {
@@ -173,9 +173,13 @@ namespace Courier.Models
 
                             //update track entity with order id
                             var tra = da.Tracks.Where(a => a.OrderID == orderID).SingleOrDefault();
-                            tra.CurrentLocationID = CheckOrderID.CurrentLocationID;
-                            da.Entry(tra).State = System.Data.Entity.EntityState.Modified;
-                            da.SaveChanges();
+                            if(tra != null )
+                            {
+                                tra.CurrentLocationID = CheckOrderID.CurrentLocationID;
+                                da.Entry(tra).State = System.Data.Entity.EntityState.Modified;
+                                da.SaveChanges();
+                            }
+                           
                             return true;
                         }
                     }

@@ -1,7 +1,10 @@
-﻿@model Courier.Models.ViewModels.OrderV
+﻿@using Courier.Models
+@model Courier.Models.ViewModels.OrderV
 @{
     ViewBag.Title = "Create an Order";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+    var users = new Users().GetUsers();
 }
 <div class="templatemo-flex-row flex-content-row">
     <!-- overflow hidden for iPad mini landscape view-->
@@ -20,6 +23,19 @@
                         <div class="form-group">
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            
+                            <div class="form-group">
+                                <label class="control-label">Select User</label>
+                                <select name="@Html.NameFor(a => a.userId)" class="form-control">
+                                    <option value="">Select user</option>
+                                    @foreach (var i in users)
+                                    {
+                                        <option value="@i.Id"> @i.Email</option>
+                                    }
+
+                                </select>
+                  
+                            </div>
 
 
                             <div class="form-group">

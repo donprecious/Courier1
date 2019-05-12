@@ -73,5 +73,66 @@ namespace Courier.Models
                 return false;
             }
         }
+
+        public List<User> List()
+        {
+            try
+            {
+                using (var da = new CourierEntities())
+                {
+                    return da.Users.ToList();
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                returnMsg = ex.Message;
+                return null;
+            }
+        }
+
+        public List<UserCredential> UserCrediential()
+        {
+            try
+            {
+                using (var da = new CourierEntities())
+                {
+                    return da.UserCredentials.ToList();
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                returnMsg = ex.Message;
+                return null;
+            }
+        }
+
+        public bool  AddCrediential(string userId, string email, string password)
+        {
+            try
+            {
+                using (var da = new CourierEntities())
+                {
+                    da.UserCredentials.Add(new UserCredential()
+                    {
+                        Email = email,
+                        Password = password,
+                        UserId = userId
+                    });
+                    da.SaveChanges();
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                returnMsg = ex.Message;
+                return false;
+            }
+        }
     }
 }

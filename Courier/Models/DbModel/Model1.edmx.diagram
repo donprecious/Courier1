@@ -37,6 +37,8 @@
         <AssociationConnector Association="CourierModel.UserRoles" ManuallyRouted="false" />
         <EntityTypeShape EntityType="CourierModel.Receipt" Width="1.5" PointX="7.5" PointY="19.75" />
         <AssociationConnector Association="CourierModel.FK_Receipt_Orders" />
+        <EntityTypeShape EntityType="CourierModel.UserCredential" Width="1.5" PointX="5.25" PointY="15" />
+        <AssociationConnector Association="CourierModel.FK_UserCredentials_Users" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

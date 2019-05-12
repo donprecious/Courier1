@@ -14,7 +14,7 @@ using System.Net;
 namespace Courier.Controllers
 {
    
-    [Authorize(Roles = "SuperAdmin")]
+    [Authorize(Roles = "SuperAdmin,Admin")]
     public class AdminController : Controller
     {
         // GET: Admin
@@ -182,13 +182,14 @@ namespace Courier.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateOrder(OrderV m)
         {
-            string userId = User.Identity.GetUserId();
+            
 
-            var CreateOrder = new Orders().createOrder(userId, m.Packagename, m.Description, m.weight, m.height);
+            var Order = new Orders();;
+            var CreateOrder = Order.createOrder(m.userId, m.Packagename, m.Description, m.weight, m.height);
 
             if (CreateOrder)
             {
-              return RedirectToAction("Location");
+              return RedirectToAction("Location", new{id = Orders.OrderID});
 
             }
             else
@@ -257,9 +258,13 @@ namespace Courier.Controllers
             return RedirectToAction("Users");
         }
 
-        public ActionResult Location()
+        public ActionResult Location(int id)
         {
-            return View();
+            var locVm = new LocationV()
+            {
+                OrderID = id
+            };
+            return View(locVm);
         }
 
 
@@ -274,7 +279,7 @@ namespace Courier.Controllers
             if(des && source)
             {
                 //Update Location
-
+                return RedirectToAction("Order");
             }
 
             else
@@ -554,6 +559,12 @@ namespace Courier.Controllers
             }
            
             return View();
+        }
+
+        public ActionResult UserCrediential()
+        {
+            var r = new Users().UserCrediential();
+            return View(r);
         }
     }
 }

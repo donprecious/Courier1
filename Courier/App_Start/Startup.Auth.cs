@@ -103,6 +103,7 @@ namespace Courier
             var user = new ApplicationUser();
             user.UserName = "Iyeritufu@gmail.com";
             user.Email = "Iyeritufu@gmail.com";
+            user.DateStamp = DateTime.UtcNow;
             string password = "precious0don";
 
             //find user{
