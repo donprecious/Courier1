@@ -5,40 +5,41 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="1b40eddf00df4f189f990e0e15564a96" Name="Diagram1">
-        <EntityTypeShape EntityType="CourierModel.Country" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CourierModel.CurrentLocation" Width="1.5" PointX="7.5" PointY="4.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="CourierModel.destination" Width="1.5" PointX="7.5" PointY="7.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="CourierModel.Location" Width="1.5" PointX="7.5" PointY="10.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CourierModel.Login" Width="1.5" PointX="5.25" PointY="2" IsExpanded="true" />
-        <EntityTypeShape EntityType="CourierModel.Order" Width="1.5" PointX="5.25" PointY="9.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="CourierModel.Quota" Width="1.5" PointX="9.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="CourierModel.Response" Width="1.5" PointX="12" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="CourierModel.ResponseReply" Width="1.5" PointX="14.25" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="CourierModel.Role" Width="1.5" PointX="0.75" PointY="11.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="CourierModel.Source" Width="1.5" PointX="7.5" PointY="16.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="CourierModel.support" Width="1.5" PointX="9.75" PointY="5.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="CourierModel.Track" Width="1.5" PointX="9.75" PointY="10.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="CourierModel.UserClaim" Width="1.5" PointX="5.25" PointY="19.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="CourierModel.User" Width="1.5" PointX="3" PointY="9.5" IsExpanded="true" />
-        <AssociationConnector Association="CourierModel.FK_CurrentLocation_Orders" ManuallyRouted="false" />
-        <AssociationConnector Association="CourierModel.FK_Track_CurrentLocation" ManuallyRouted="false" />
-        <AssociationConnector Association="CourierModel.FK_destinations_Orders" ManuallyRouted="false" />
-        <AssociationConnector Association="CourierModel.FK_Track_destinations" ManuallyRouted="false" />
-        <AssociationConnector Association="CourierModel.FK_Location_Orders1" ManuallyRouted="false" />
-        <AssociationConnector Association="CourierModel.FK_dbo_Logins_dbo_Users_UserId" ManuallyRouted="false" />
-        <AssociationConnector Association="CourierModel.FK_Orders_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="CourierModel.FK_Source_Orders" ManuallyRouted="false" />
-        <AssociationConnector Association="CourierModel.FK_Track_Orders" ManuallyRouted="false" />
-        <AssociationConnector Association="CourierModel.FK_Response_Quota" ManuallyRouted="false" />
-        <AssociationConnector Association="CourierModel.FK_Response_support" ManuallyRouted="false" />
-        <AssociationConnector Association="CourierModel.FK_ResponseReply_Response" ManuallyRouted="false" />
-        <AssociationConnector Association="CourierModel.FK_Track_Source" ManuallyRouted="false" />
-        <AssociationConnector Association="CourierModel.FK_dbo_UserClaims_dbo_Users_UserId" ManuallyRouted="false" />
-        <AssociationConnector Association="CourierModel.UserRoles" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="CourierModel.Receipt" Width="1.5" PointX="7.5" PointY="19.75" />
+        <EntityTypeShape EntityType="CourierModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="CourierModel.CurrentLocation" Width="1.5" PointX="7.5" PointY="19.375" />
+        <EntityTypeShape EntityType="CourierModel.destination" Width="1.5" PointX="7.5" PointY="7.25" />
+        <EntityTypeShape EntityType="CourierModel.Location" Width="1.5" PointX="7.5" PointY="16.25" />
+        <EntityTypeShape EntityType="CourierModel.Login" Width="1.5" PointX="5.25" PointY="4.75" />
+        <EntityTypeShape EntityType="CourierModel.Order" Width="1.5" PointX="5.25" PointY="12.375" />
+        <EntityTypeShape EntityType="CourierModel.Quota" Width="1.5" PointX="7.75" PointY="1" />
+        <EntityTypeShape EntityType="CourierModel.Response" Width="1.5" PointX="10" PointY="1" />
+        <EntityTypeShape EntityType="CourierModel.ResponseReply" Width="1.5" PointX="12.25" PointY="1.25" />
+        <EntityTypeShape EntityType="CourierModel.Role" Width="1.5" PointX="0.75" PointY="11.125" />
+        <EntityTypeShape EntityType="CourierModel.Source" Width="1.5" PointX="7.5" PointY="13.125" />
+        <EntityTypeShape EntityType="CourierModel.support" Width="1.5" PointX="7.75" PointY="23.25" />
+        <EntityTypeShape EntityType="CourierModel.sysdiagram" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="CourierModel.Track" Width="1.5" PointX="9.75" PointY="13.125" />
+        <EntityTypeShape EntityType="CourierModel.UserClaim" Width="1.5" PointX="5.25" PointY="2" />
+        <EntityTypeShape EntityType="CourierModel.User" Width="1.5" PointX="3" PointY="9.5" />
+        <AssociationConnector Association="CourierModel.FK_CurrentLocation_Orders" />
+        <AssociationConnector Association="CourierModel.FK_Track_CurrentLocation" />
+        <AssociationConnector Association="CourierModel.FK_destinations_Orders" />
+        <AssociationConnector Association="CourierModel.FK_Track_destinations" />
+        <AssociationConnector Association="CourierModel.FK_Location_Orders1" />
+        <AssociationConnector Association="CourierModel.FK_dbo_Logins_dbo_Users_UserId" />
+        <AssociationConnector Association="CourierModel.FK_Orders_Users" />
+        <AssociationConnector Association="CourierModel.FK_Source_Orders" />
+        <AssociationConnector Association="CourierModel.FK_Track_Orders" />
+        <AssociationConnector Association="CourierModel.FK_Response_Quota" />
+        <AssociationConnector Association="CourierModel.FK_Response_support" />
+        <AssociationConnector Association="CourierModel.FK_ResponseReply_Response" />
+        <AssociationConnector Association="CourierModel.FK_Track_Source" />
+        <AssociationConnector Association="CourierModel.FK_dbo_UserClaims_dbo_Users_UserId" />
+        <AssociationConnector Association="CourierModel.UserRoles" />
+        <EntityTypeShape EntityType="CourierModel.UserCredential" Width="1.5" PointX="5.25" PointY="8.875" />
+        <AssociationConnector Association="CourierModel.FK_UserCredential_Users" />
+        <EntityTypeShape EntityType="CourierModel.Receipt" Width="1.5" PointX="7.5" PointY="26.375" />
         <AssociationConnector Association="CourierModel.FK_Receipt_Orders" />
-        <EntityTypeShape EntityType="CourierModel.UserCredential" Width="1.5" PointX="5.25" PointY="15" />
-        <AssociationConnector Association="CourierModel.FK_UserCredentials_Users" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

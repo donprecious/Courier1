@@ -98,12 +98,12 @@ namespace Courier.Models
                             Message = message
                         });
                     }
-                    else
-                    {
-                        //update quota
-                        chk.Message = message;
-                        da.Entry(chk).State = System.Data.Entity.EntityState.Modified;
-                    }
+                    //else
+                    //{
+                    //    //update quota
+                    //    chk.Message = message;
+                    //    da.Entry(chk).State = System.Data.Entity.EntityState.Modified;
+                    //}
                     da.SaveChanges();
                     return true;
                 }

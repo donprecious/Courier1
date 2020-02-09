@@ -14,5 +14,7 @@ namespace Courier.Models.ViewModels
         [Display(Name ="Amount")]
         public decimal amount { get; set; }
 
+        [Display(Name ="More Info")]
+        public string AdditionalInfo { get; set; }
     }
 }

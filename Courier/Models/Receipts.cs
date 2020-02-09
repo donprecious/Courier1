@@ -22,7 +22,7 @@ namespace Courier.Models
         //  }
 
 
-        public bool createReceipt(int orderID, decimal Amount)
+        public bool createReceipt(int orderID, decimal Amount,  string more)
         {
             try
             {
@@ -36,14 +36,15 @@ namespace Courier.Models
                         {
                             Amount = Amount,
                             OrderID = orderID,
-                            DateCreated = DateTime.UtcNow
+                            DateCreated = DateTime.UtcNow,
+                            AdditionalInfo = more
                         });
                      
                     }
                     else
                     {
                         chKRec.Amount = Amount;
-
+                        chKRec.AdditionalInfo = more;
                         da.Entry(chKRec).State = System.Data.Entity.EntityState.Modified;
                     }
                     da.SaveChanges();

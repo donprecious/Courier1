@@ -56,7 +56,7 @@
                     <div class="form-group">
 
                         @Html.Label("Email",  htmlAttributes: new { @class = "control-label" })
-                        @Html.TextBox("Email", null ,new { @class = "form-control", placeholder = "Email address" })
+                        @Html.TextBox("Email", null ,new { @class = "form-control", placeholder = "Email address" , value="@ViewBag.Email"})
                     </div>
                     <div class="form-group">
                         @Html.Label("Message", new { @class = "control-label" })

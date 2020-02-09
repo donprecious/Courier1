@@ -35,6 +35,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <IntermediateOutputPath>C:\Users\IYERIT~1\AppData\Local\Temp\vsC134.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -43,6 +44,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <IntermediateOutputPath>C:\Users\IYERIT~1\AppData\Local\Temp\vsC134.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -65,6 +67,9 @@
     <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="RestSharp, Version=106.0.0.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.10.1\lib\net452\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -197,10 +202,10 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CurrentLocations.cs" />
-    <Compile Include="Models\DbModel\Country.cs">
+    <Compile Include="Models\DbModel\CurrentLocation.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DbModel\CurrentLocation.cs">
+    <Compile Include="Models\DbModel\C__MigrationHistory.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DbModel\destination.cs">
@@ -251,6 +256,9 @@
     <Compile Include="Models\DbModel\support.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DbModel\sysdiagram.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DbModel\Track.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -285,6 +293,7 @@
     <Compile Include="Models\ViewModels\ManageViewModels.cs" />
     <Compile Include="Models\ViewModels\QuotaV.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\SmsService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -306,6 +315,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\Site.css" />
     <Content Include="Global.asax" />
+    <Content Include="images\logo.png" />
     <Content Include="img\about.jpg" />
     <Content Include="img\banner.png" />
     <Content Include="img\intro-bg.jpg" />
@@ -362,11 +372,15 @@
     <Content Include="fonts\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="js\bootstrap.js" />
     <Content Include="js\bootstrap.min.js" />
+    <Content Include="js\contact_me.js" />
+    <Content Include="js\main.js" />
+    <Content Include="js\nivo-lightbox.js" />
     <Content Include="js\Places.js" />
     <Content Include="js\bootstrap-filestyle.min.js" />
     <Content Include="js\jquery-2.2.3.min.js" />
     <Content Include="js\jquery-migrate-1.2.1.min.js" />
     <Content Include="js\jquery-migrate-1.3.0.min.js" />
+    <Content Include="js\SmoothScroll.js" />
     <Content Include="js\templatemo-script.js" />
     <Content Include="Models\DbModel\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -378,6 +392,7 @@
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
+    <Content Include="scriptDb.sql" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="fonts\font-awesome\fonts\fontawesome-webfont.eot" />
@@ -428,12 +443,14 @@
     <Content Include="Models\DbModel\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="Courier.bak" />
     <None Include="Properties\PublishProfiles\courial - FTP %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\courial - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\courial - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\courial - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\courierla.ml - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -520,10 +537,10 @@
     <Content Include="Views\Admin\Users.cshtml" />
     <Content Include="Views\Admin\LocationUpdate.cshtml" />
     <Content Include="Views\Admin\UserCrediential.cshtml" />
+    <Content Include="Views\Admin\Sms.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="images\" />
     <Folder Include="jqvmap\" />
   </ItemGroup>
   <ItemGroup>

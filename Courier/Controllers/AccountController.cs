@@ -88,14 +88,11 @@ namespace Courier.Controllers
                         {
                             return RedirectToAction("index", "admin");
                         }
-                        else if (chkInRoleAdmin.Name == "SuperAdmin")
+                     if (chkInRoleAdmin.Name == "SuperAdmin")
                         {
                             return RedirectToAction("index", "SuperAdmin");
                         }
-                        else
-                        {
-                            return RedirectToLocal(returnUrl);
-                        }
+                      
                     }
 
                     return RedirectToLocal(returnUrl);
@@ -171,7 +168,7 @@ namespace Courier.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, DateStamp = DateTime.UtcNow };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, PhoneNumber= model.PhoneNumber, DateStamp = DateTime.UtcNow };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

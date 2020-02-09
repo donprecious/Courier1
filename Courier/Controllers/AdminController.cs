@@ -426,7 +426,7 @@ namespace Courier.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult GenerateReceipt(int id, ReceiptV m)
         {
-            var x = new Receipts().createReceipt(id, m.amount);
+            var x = new Receipts().createReceipt(id, m.amount, m.AdditionalInfo);
 
             if (x)
             {
@@ -469,11 +469,13 @@ namespace Courier.Controllers
         public ActionResult RespondToSupport(int id)
         {
             var db = new CourierEntities();
-
+            ViewBag.Id = id;
             string email = ViewBag.Email = db.supports.Where(a => a.TicketID == id).Select(a => a.email).SingleOrDefault();
             Session["email"] = email;
-
-            return View();
+         var s =   db.supports.Where(a => a.TicketID == id).SingleOrDefault();
+         var supportReply = new supportReply();
+         supportReply.TicketID = s.TicketID;
+         return View(supportReply);
         }
 
         [HttpPost, ValidateAntiForgeryToken]
@@ -565,6 +567,27 @@ namespace Courier.Controllers
         {
             var r = new Users().UserCrediential();
             return View(r);
+        }
+
+        public ActionResult Sms()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Sms(List<string> phones, string message, string from)
+        {
+            if (string.IsNullOrWhiteSpace(message)) return Json(new{message="message cant be empty", status=400} );
+            if (string.IsNullOrWhiteSpace(from)) return Json(new{message="Sender Id cannot be empty", status=400} );
+            if (!phones.Any()) return Json(new{message="Phone number cant be empty", status=400} ); 
+            if (!from.Any()) return Json(new{message="Phone number cant be empty", status=400} ); 
+        
+            var send = new Services.SmsService().SendMessage(phones, from,message);
+            if (send)
+            {
+                return Json(new{message="Message Sent", status=200} ); 
+            }
+            return Json(new{message="Something went Wrong", status=400} );  
         }
     }
 }

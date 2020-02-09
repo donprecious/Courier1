@@ -212,7 +212,7 @@ namespace Courier.Controllers
 
         public ActionResult Support(int? page)
         {
-            string userEmail = User.Identity.GetUserName();
+            string userEmail =ViewBag.Email = User.Identity.GetUserName();
             var da = new Courier.Models.DbModel.CourierEntities();
             var query = (from a in da.supports where a.email== userEmail select a).OrderByDescending(a =>a.dateSpam);
             int pageSize = 5;
@@ -245,6 +245,7 @@ namespace Courier.Controllers
             var packageName = da.Orders.Where(a => a.OrderID == id).Select(a => a.Packagename).SingleOrDefault();
             ViewBag.OrderID = orderid;
             ViewBag.PackageName = packageName;
+            
             var rec = da.Receipts.Where(a => a.OrderID == id).Select(a => a.ReceiptID);
             if (rec != null)
             {
@@ -257,8 +258,9 @@ namespace Courier.Controllers
                 ViewBag.RecID = "UNPAID";
                 ViewBag.RecNO = "NOT FOUND";
             }
-            ViewBag.Amount = da.Receipts.Where(a => a.OrderID == id).Select(a => a.Amount).SingleOrDefault();
 
+            ViewBag.Amount = da.Receipts.Where(a => a.OrderID == id).Select(a => a.Amount).SingleOrDefault();
+            ViewBag.More =  da.Receipts.Where(a => a.OrderID == id).Select(a => a.AdditionalInfo).SingleOrDefault();
             ViewBag.des = da.destinations.Where(a => a.OrderID == id).Select(a => a.Address).SingleOrDefault();
             ViewBag.track = da.Tracks.Where(a => a.OrderID == id).Select(a => a.TrackID).SingleOrDefault();
             ViewBag.sou = da.Sources.Where(a => a.OrderID == id).Select(a => a.address).SingleOrDefault();

@@ -25,7 +25,7 @@ namespace Courier.Models.DbModel
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Country> Countries { get; set; }
+        public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
         public virtual DbSet<CurrentLocation> CurrentLocations { get; set; }
         public virtual DbSet<destination> destinations { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
@@ -37,10 +37,11 @@ namespace Courier.Models.DbModel
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Source> Sources { get; set; }
         public virtual DbSet<support> supports { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Track> Tracks { get; set; }
         public virtual DbSet<UserClaim> UserClaims { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<Receipt> Receipts { get; set; }
         public virtual DbSet<UserCredential> UserCredentials { get; set; }
+        public virtual DbSet<Receipt> Receipts { get; set; }
     }
 }

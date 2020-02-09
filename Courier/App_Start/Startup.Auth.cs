@@ -101,10 +101,10 @@ namespace Courier
             //Here we create a Admin super user who will maintain the website                  
 
             var user = new ApplicationUser();
-            user.UserName = "Iyeritufu@gmail.com";
-            user.Email = "Iyeritufu@gmail.com";
+            user.UserName = "donp@gmail.com";
+            user.Email = "donp@gmail.com";
             user.DateStamp = DateTime.UtcNow;
-            string password = "precious0don";
+            string password = "donp@gmail.com";
 
             //find user{
             var findUser = UserManager.FindByEmail(user.Email);

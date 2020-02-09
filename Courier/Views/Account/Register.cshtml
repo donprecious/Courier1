@@ -19,6 +19,11 @@
             </div>
 
             <div class="form-group">
+                @Html.LabelFor(m => m.PhoneNumber, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+            </div>
+
+            <div class="form-group">
                 @Html.LabelFor(m => m.Password, new { @class = "control-label" })
 
                 @Html.PasswordFor(m => m.Password, new { @class = "form-control" })

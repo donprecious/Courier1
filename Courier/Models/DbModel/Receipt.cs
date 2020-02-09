@@ -18,6 +18,7 @@ namespace Courier.Models.DbModel
         public Nullable<int> OrderID { get; set; }
         public Nullable<decimal> Amount { get; set; }
         public Nullable<System.DateTime> DateCreated { get; set; }
+        public string AdditionalInfo { get; set; }
     
         public virtual Order Order { get; set; }
     }
