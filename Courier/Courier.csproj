@@ -35,7 +35,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\IYERIT~1\AppData\Local\Temp\vsC134.tmp\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\iyeri\AppData\Local\Temp\vs41AE.tmp\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -44,7 +44,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IntermediateOutputPath>C:\Users\IYERIT~1\AppData\Local\Temp\vsC134.tmp\Release\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\iyeri\AppData\Local\Temp\vs41AE.tmp\Release\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -444,12 +444,6 @@
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
     <Content Include="Courier.bak" />
-    <None Include="Properties\PublishProfiles\courial - FTP %282%29.pubxml" />
-    <None Include="Properties\PublishProfiles\courial - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\courial - Web Deploy %282%29.pubxml" />
-    <None Include="Properties\PublishProfiles\courial - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\courierla.ml - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
