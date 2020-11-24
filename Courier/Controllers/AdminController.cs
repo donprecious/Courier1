@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity;
 using Courier.Models.DbModel;
 using PagedList;
 using System.Net;
+using Track = Courier.Models.Track;
 
 namespace Courier.Controllers
 {
@@ -41,7 +42,7 @@ namespace Courier.Controllers
         public ActionResult Order(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
-          ViewBag.OrderID = String.IsNullOrEmpty(sortOrder) ? "orderId" : "";
+            ViewBag.OrderID = String.IsNullOrEmpty(sortOrder) ? "orderId" : "";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
 
             if (searchString != null)
@@ -184,6 +185,7 @@ namespace Courier.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreateOrder(OrderV m)
+
         {
             
 
@@ -281,7 +283,10 @@ namespace Courier.Controllers
 
             if(des && source)
             {
-                //Update Location
+                //Update Location 
+
+                //Display a Modal and return to client area
+                var tr = new Track().GenerateTrack(m.OrderID);
                 return RedirectToAction("Order");
             }
 
