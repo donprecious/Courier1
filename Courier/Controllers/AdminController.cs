@@ -81,7 +81,8 @@ namespace Courier.Controllers
 
             int pageSize = 10;
             int pageNumber = (page ?? 1);
-            return View(orders.ToPagedList(pageNumber, pageSize));
+            var result = orders.ToPagedList(pageNumber, pageSize);
+            return View(result);
         }
 
         public ActionResult Quotas(string sortOrder, string currentFilter, string searchString, int? page)
@@ -169,7 +170,9 @@ namespace Courier.Controllers
 
             int pageSize = 10;
             int pageNumber = (page ?? 1);
-            return View(quota.ToPagedList(pageNumber, pageSize));
+
+            return View(quota.ToPagedList(pageNumber, pageSize)); 
+
         }
 
 
@@ -272,7 +275,7 @@ namespace Courier.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Location(LocationV m)
         {
-            var des = new Models.Location().AddCurrentLocation(m.OrderID, m.Destination, m.DestinationLatitude, m.DestinationLogitude);
+            var des = new Models.Location().AddDestination(m.OrderID, m.Destination, m.DestinationLatitude, m.DestinationLogitude);
             var source = new Models.Location().AddSource(m.OrderID, m.Source, m.DestinationLogitude, m.SourceLogitude);
            // var current = new Models.Location().AddCurrentLocation(m.OrderID, m.Source, m.SourceLatitude, m.SourceLogitude);
 

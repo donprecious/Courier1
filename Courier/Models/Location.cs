@@ -123,10 +123,14 @@ namespace Courier.Models
 
                             //update track entity with order id
                             var tra = da.Tracks.Where(a => a.OrderID == orderID).SingleOrDefault();
-                            tra.CurrentLocationID = curr.CurrentLocationID;
-                            da.Entry(tra).State = System.Data.Entity.EntityState.Modified;
+                            if (tra != null)
+                            {
+                                tra.CurrentLocationID = curr.CurrentLocationID;
+                                da.Entry(tra).State = System.Data.Entity.EntityState.Modified;
 
-                            da.SaveChanges();
+                                da.SaveChanges();
+                            }
+                          
                             return true;
                         }
                         else
