@@ -62,11 +62,11 @@
             <PropertyRef Name="OrderID" />
           </Key>
           <Property Name="OrderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Packagename" Type="varchar" MaxLength="50" />
+          <Property Name="Packagename" Type="varchar" MaxLength="3000" />
           <Property Name="Description" Type="varchar(max)" />
-          <Property Name="weight" Type="varchar" MaxLength="50" />
-          <Property Name="height" Type="varchar" MaxLength="50" />
-          <Property Name="width" Type="varchar" MaxLength="50" />
+          <Property Name="weight" Type="varchar" MaxLength="3000" />
+          <Property Name="height" Type="varchar" MaxLength="3000" />
+          <Property Name="width" Type="varchar" MaxLength="3000" />
           <Property Name="userId" Type="nvarchar" MaxLength="128" />
           <Property Name="DateSpam" Type="datetime" />
           <Property Name="LocationID" Type="int" />
@@ -699,11 +699,11 @@
             <PropertyRef Name="OrderID" />
           </Key>
           <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Packagename" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Packagename" Type="String" MaxLength="3000" FixedLength="false" Unicode="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="weight" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="height" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="width" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="weight" Type="String" MaxLength="3000" FixedLength="false" Unicode="false" />
+          <Property Name="height" Type="String" MaxLength="3000" FixedLength="false" Unicode="false" />
+          <Property Name="width" Type="String" MaxLength="3000" FixedLength="false" Unicode="false" />
           <Property Name="userId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="DateSpam" Type="DateTime" Precision="3" />
           <Property Name="LocationID" Type="Int32" />

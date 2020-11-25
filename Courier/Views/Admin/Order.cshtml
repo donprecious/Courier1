@@ -26,7 +26,8 @@
                             </th>
                             <th>
                                 @Html.ActionLink("Date", "Order", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
-                            </th>
+                            </th> 
+                            <th>User</th>
                             <th>Package name</th>
                             <th>Describition</th>
                             <th>Source</th>
@@ -53,6 +54,9 @@
                                             @{string dateSpam = i.Order.DateSpam != null ? Convert.ToString(i.Order.DateSpam) : "NO date recorded";}
                                             @dateSpam
                                         </span>
+                                    </td> 
+                                    <td>
+                                        @i.Order.User.Email
                                     </td>
                                     <td>
                                         <span class="badge">Tracking No : @i.TrackID </span>

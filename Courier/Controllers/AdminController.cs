@@ -189,7 +189,7 @@ namespace Courier.Controllers
         {
             
 
-            var Order = new Orders();;
+            var Order = new Orders();
             var CreateOrder = Order.createOrder(m.userId, m.Packagename, m.Description, m.weight, m.height);
 
             if (CreateOrder)
@@ -298,8 +298,6 @@ namespace Courier.Controllers
             return View();
         }
 
-
-        
         public ActionResult DeleteOrder(int id)
         {
 
@@ -328,6 +326,7 @@ namespace Courier.Controllers
             }
             return View(order);
         }
+
 
         [ActionName("EditOrder")]
         [ValidateAntiForgeryToken,HttpPost]
@@ -392,8 +391,6 @@ namespace Courier.Controllers
                 }
             return View(m);
         }
-        
-        
 
         public ActionResult GenerateTrackingNo(int id)
         {
